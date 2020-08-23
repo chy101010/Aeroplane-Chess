@@ -1,8 +1,8 @@
 
-import com.areoplane.game.model.AirBoardImpl;
-import com.areoplane.game.model.AirModel;
-import com.areoplane.game.model.Player;
-import com.areoplane.game.model.PlayerImpl;
+import com.areoplane.game.Model.AreoBoardImpl;
+import com.areoplane.game.Model.AreoModel;
+import com.areoplane.game.Model.Player;
+import com.areoplane.game.Model.PlayerImpl;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 
 public class ModelTest {
     private Random rand = new Random();
-    AirModel model;
+    AreoModel model;
     Player red;
     Player yellow;
     Player blue;
@@ -25,7 +25,7 @@ public class ModelTest {
         this.yellow = new PlayerImpl("Y");
         this.blue = new PlayerImpl("B");
         this.green = new PlayerImpl("G");
-        this.model = new AirBoardImpl(this.red, this.yellow, this.blue, this.green, this.rand);
+        this.model = new AreoBoardImpl(this.red, this.yellow, this.blue, this.green, this.rand);
     }
 
 //     Random Seed 1
@@ -663,7 +663,7 @@ public class ModelTest {
         this.yellow = new PlayerImpl("Yellow", 0, 1, 18, 13);
         this.blue = new PlayerImpl("Blue", 0, 6, 13, 14);
         this.green = new PlayerImpl("Green", 12, 50, 17, 45);
-        this.model = new AirBoardImpl(this.red, this.yellow, this.blue, this.green, new Random());
+        this.model = new AreoBoardImpl(this.red, this.yellow, this.blue, this.green, new Random());
         assertEquals(new ArrayList<>(Arrays.asList(1, 2, 6, 3, 4, 5, 10)), this.looper(this.red, 0));
         assertEquals(new ArrayList<>(Arrays.asList(12, 13, 14, 18, 30, 15, 16, 17)), this.looper(this.red, 1));
         assertEquals(new ArrayList<>(Arrays.asList(15, 16, 17, 18, 30, 34, 19, 20)), this.looper(this.red, 2));
@@ -687,7 +687,7 @@ public class ModelTest {
     public void testIntermediatePositions(){
         this.red = new PlayerImpl("One", -1, 13, 14, 55);
         this.blue = new PlayerImpl("Two", 0, 24, 41, 49);
-        this.model = new AirBoardImpl(this.red, this.yellow, this.blue, this.green, new Random());
+        this.model = new AreoBoardImpl(this.red, this.yellow, this.blue, this.green, new Random());
         // PlayerOne
         // testing set path
         assertEquals(new ArrayList<>(Arrays.asList(77, 78)), this.model.intermediatePositions(this.red,0, 5));

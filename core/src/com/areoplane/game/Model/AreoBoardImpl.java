@@ -1,33 +1,42 @@
-package com.areoplane.game.model;
+package com.areoplane.game.Model;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 /**
- * Represents a AreoPlane chess of four {@code player} that
+ * Represents an areoplane chess of four {@code Player}. The positions of the planes are offsetted according to the
+ * their players' corner.
  */
-public class AirBoardImpl implements AirModel {
-    private Player[] players;
+public class AreoBoardImpl implements AreoModel {
+    // Players
+    private final Player[] players;
+    // Tracking which player is in turn
+    // 0 : Bottom-Left Corner
+    // 1 : Top-Left Corner
+    // 2 : Top-Right Corner
+    // 3 : Bottom-Right Corner
     private Player curPlayerNo;
-    private Random rand;
+    private final Random rand;
 
     /**
-     * A convenient constructor
+     * Constructs an AreoBoardImpl with four players which all planes are in the ports.
      */
-    public AirBoardImpl() {
+    public AreoBoardImpl() {
         this(new PlayerImpl("Red"), new PlayerImpl("Yellow"),
                 new PlayerImpl("Blue"), new PlayerImpl("Green"), new Random());
     }
 
     /**
-     * @param one
-     * @param two
-     * @param three
-     * @param four
-     * @param rand
+     * Constructs an AreoBoardImpl with four players.
+     *
+     * @param one   Player One at Bottom-Left Corner.
+     * @param two   Player Two at Top-Left Corner.
+     * @param three Player Three at Top-Right Corner.
+     * @param four  Player Four at Bottom-Right Corner.
+     * @param rand  Random
      */
-    public AirBoardImpl(Player one, Player two, Player three, Player four, Random rand) {
+    public AreoBoardImpl(Player one, Player two, Player three, Player four, Random rand) {
         this.players = new Player[]{one, two, three, four};
         this.curPlayerNo = one;
         this.rand = rand;
@@ -65,28 +74,11 @@ public class AirBoardImpl implements AirModel {
         }
     }
 
-    /**
-     * Crashes all the planes at this {@code pos} that are not the planes of the {@code player}.
-     *
-     * @param pos position on the board.
-     */
-    private void crash(Player player, int pos) {
-        for (int i = 0; i < 4; i++) {
-            if (!this.players[i].equals(player)) {
-                int[] positions = this.players[i].getPositions();
-                for (int j = 0; j < 4; j++) {
-                    if (offSet(positions[j], this.players[i]) == offSet(pos, player)) {
-                        this.players[i].crash(j);
-                    }
-                }
-            }
-        }
-    }
-
     @Override
     public Player getTurn() {
         return this.curPlayerNo;
     }
+
 
     @Override
     public boolean isGameOver() {
@@ -116,7 +108,6 @@ public class AirBoardImpl implements AirModel {
         }
         return copyPlayers;
     }
-
 
     @Override
     public List<Integer> movablePlanes(Player player, int roll) {
@@ -206,6 +197,24 @@ public class AirBoardImpl implements AirModel {
             arr.add(this.offSet(pos, player));
         }
         return arr;
+    }
+
+    /**
+     * Crashes all the planes at this {@code pos} that are not the planes of the {@code player}.
+     *
+     * @param pos position on the board.
+     */
+    private void crash(Player player, int pos) {
+        for (int i = 0; i < 4; i++) {
+            if (!this.players[i].equals(player)) {
+                int[] positions = this.players[i].getPositions();
+                for (int j = 0; j < 4; j++) {
+                    if (offSet(positions[j], this.players[i]) == offSet(pos, player)) {
+                        this.players[i].crash(j);
+                    }
+                }
+            }
+        }
     }
 
     /**

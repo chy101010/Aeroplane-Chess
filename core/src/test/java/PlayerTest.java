@@ -1,5 +1,5 @@
-import com.areoplane.game.model.Player;
-import com.areoplane.game.model.PlayerImpl;
+import com.areoplane.game.Model.Player;
+import com.areoplane.game.Model.PlayerImpl;
 import org.junit.Before;
 import org.junit.Test;
 

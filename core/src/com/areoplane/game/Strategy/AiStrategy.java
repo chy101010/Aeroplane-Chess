@@ -1,6 +1,7 @@
 package com.areoplane.game.Strategy;
 
-import com.areoplane.game.model.AirModel;
+import com.areoplane.game.Model.AreoModel;
+
 
 public class AiStrategy implements IStrategy {
     private IStrategy[] strategies;
@@ -10,7 +11,7 @@ public class AiStrategy implements IStrategy {
     }
 
     @Override
-    public Integer choosePlane(int roll, AirModel board) {
+    public Integer choosePlane(int roll, AreoModel board) {
         for (int i = 0; i < this.strategies.length; i++) {
             Integer move = this.strategies[i].choosePlane(roll, board);
             if (move != null) {

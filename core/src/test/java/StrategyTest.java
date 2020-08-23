@@ -1,8 +1,8 @@
 import com.areoplane.game.Strategy.*;
-import com.areoplane.game.model.AirBoardImpl;
-import com.areoplane.game.model.AirModel;
-import com.areoplane.game.model.Player;
-import com.areoplane.game.model.PlayerImpl;
+import com.areoplane.game.Model.AreoBoardImpl;
+import com.areoplane.game.Model.AreoModel;
+import com.areoplane.game.Model.Player;
+import com.areoplane.game.Model.PlayerImpl;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +23,7 @@ public class StrategyTest {
     Player two;
     Player three;
     Player four;
-    AirModel model;
+    AreoModel model;
 
     @Before
     public void textFixture() {
@@ -39,7 +39,7 @@ public class StrategyTest {
         this.two = new PlayerImpl("test2", 1, 2, 4, 3);
         this.three = new PlayerImpl("test3", -1, -1, -1, -1);
         this.four = new PlayerImpl("test4", 1, 16, 13, 17);
-        this.model = new AirBoardImpl(this.one, this.two, this.three, this.four, new Random());
+        this.model = new AreoBoardImpl(this.one, this.two, this.three, this.four, new Random());
     }
 
     @Test
@@ -128,7 +128,7 @@ public class StrategyTest {
     public void testInnerPath() {
         this.one = new PlayerImpl("One", 48, 20, 46, 50);
         this.two = new PlayerImpl("Two", 45, 47, 41, -1);
-        this.model = new AirBoardImpl(this.one, this.two, this.three, this.four, this.rand);
+        this.model = new AreoBoardImpl(this.one, this.two, this.three, this.four, this.rand);
         assertEquals(this.one, model.getTurn());
         assertEquals(3, (int) this.innerPath.choosePlane(1, model));
         assertEquals(0, (int) this.innerPath.choosePlane(3, model));
@@ -156,7 +156,7 @@ public class StrategyTest {
         this.two = new PlayerImpl("Two", -1, -1, -1, 5);
         this.three = new PlayerImpl("Three", -1, -1, 20, 7);
         this.four = new PlayerImpl("Four", -1, -1, -1, 0);
-        this.model = new AirBoardImpl(this.one, this.two, this.three, this.four, this.rand);
+        this.model = new AreoBoardImpl(this.one, this.two, this.three, this.four, this.rand);
         // Plane two of Player "One" can be destroyed by Plane four of Player "Four"
         assertEquals(2, (int) this.escape.choosePlane(4, this.model));
         this.one.move(2, 2);
@@ -190,7 +190,7 @@ public class StrategyTest {
         this.two = new PlayerImpl("Two", 4, -1, -1, -1);
         this.three = new PlayerImpl("Three", 7, -1, -1, -1);
         this.four = new PlayerImpl("Four", 5, -1, -1, -1);
-        this.model = new AirBoardImpl(this.one, this.two, this.three, this.four, this.rand);
+        this.model = new AreoBoardImpl(this.one, this.two, this.three, this.four, this.rand);
         // Plane zero of Player "Two" can be destroyed by Plane zero of Player "One" if the roll is 4
         // Plane zero of Player "four" can be destroyed by Plane two of Player "One" if the roll is 5
         assertEquals(null, this.crash.choosePlane(1, this.model));

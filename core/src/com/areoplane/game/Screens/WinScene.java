@@ -2,9 +2,9 @@ package com.areoplane.game.Screens;
 
 import com.areoplane.game.AreoPlaneGame;
 import com.areoplane.game.Assets;
-import com.areoplane.game.Controller.AirController;
+import com.areoplane.game.Controller.AreoController;
 import com.areoplane.game.Controller.singlePlayerController;
-import com.areoplane.game.model.AirBoardImpl;
+import com.areoplane.game.Model.AreoBoardImpl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
@@ -47,8 +47,8 @@ public class WinScene extends ScreenAdapter {
 
             if (this.newGame.contains(vector.x, vector.y)) {
                 GameScene scene = new GameScene(this.game);
-                AirController controller = new singlePlayerController(
-                        new AirBoardImpl(), scene);
+                AreoController controller = new singlePlayerController(
+                        new AreoBoardImpl(), scene);
                 controller.play();
                 this.game.setScreen(scene);
             }

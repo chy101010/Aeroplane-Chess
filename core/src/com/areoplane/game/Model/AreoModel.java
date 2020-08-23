@@ -1,12 +1,12 @@
-package com.areoplane.game.model;
+package com.areoplane.game.Model;
 
 import java.util.List;
 
 /**
- *
+ * This interface represent an areoplane chess model. This interface supports functions that allow the client to
+ * roll the dice, to move the planes of players, and acquire information/status about the board and the players.
  */
-public interface AirModel {
-    // Moved to view
+public interface AreoModel {
     String toString();
 
     /**
@@ -107,6 +107,7 @@ public interface AirModel {
 
 
     // todo Testing
+
     /**
      * Returns the positions of the {@code plane} of this {@code player} will crash with given the {@code steps}
      * in this game board.

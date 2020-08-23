@@ -1,18 +1,15 @@
 package com.areoplane.game.Screens;
 
-import com.areoplane.game.model.PlayerImpl;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.areoplane.game.Assets;
-import com.areoplane.game.Controller.AirController;
+import com.areoplane.game.Controller.AreoController;
 import com.areoplane.game.Controller.singlePlayerController;
 import com.areoplane.game.AreoPlaneGame;
-import com.areoplane.game.model.AirBoardImpl;
-
-import java.util.Random;
+import com.areoplane.game.Model.AreoBoardImpl;
 
 
 public class MainMenuScreen extends ScreenAdapter {
@@ -36,11 +33,8 @@ public class MainMenuScreen extends ScreenAdapter {
                     Gdx.graphics.getHeight() - Gdx.input.getY(), 0));
             if (this.playButton.contains(vector.x, vector.y)) {
                 GameScene scene = new GameScene(this.game);
-                AirController controller = new singlePlayerController(
-                        new AirBoardImpl(new PlayerImpl("red", 50,50,50,50),
-                                new PlayerImpl("yel", 50,50,50,50),
-                                new PlayerImpl("blue", 50,50,50,50),
-                                new PlayerImpl("green", 50,50,50,50), new Random()), scene);
+                AreoController controller = new singlePlayerController(
+                        new AreoBoardImpl(), scene);
                 controller.play();
                 this.game.setScreen(scene);
             }

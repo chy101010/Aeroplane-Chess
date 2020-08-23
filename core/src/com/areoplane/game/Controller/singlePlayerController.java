@@ -2,15 +2,15 @@ package com.areoplane.game.Controller;
 
 import com.areoplane.game.Strategy.*;
 import com.areoplane.game.View.AirView;
-import com.areoplane.game.model.AirModel;
-import com.areoplane.game.model.Player;
+import com.areoplane.game.Model.AreoModel;
+import com.areoplane.game.Model.Player;
 
 import java.util.List;
 import java.util.Objects;
 
-public class singlePlayerController implements AirController, Features {
+public class singlePlayerController implements AreoController, Features {
     private final AiStrategy bot;
-    private final AirModel model;
+    private final AreoModel model;
     private final AirView view;
 
     // To keep track whether the current player is human player.
@@ -26,7 +26,7 @@ public class singlePlayerController implements AirController, Features {
     //
     private Player curPlayer;
 
-    public singlePlayerController(AirModel model, AirView view) {
+    public singlePlayerController(AreoModel model, AirView view) {
         Objects.requireNonNull(model);
         Objects.requireNonNull(view);
         this.bot = new AiStrategy(new InnerPathStrategy(), new PutOnPathStrategy(),
@@ -48,11 +48,11 @@ public class singlePlayerController implements AirController, Features {
     public void instruction(int time) {
         this.curPlayer = this.model.getTurn();
         this.view.setTurn(this.curPlayer.getName());
-//        if (this.isHumanPlayer()) {
-//            this.playerInstruction(time);
-//        } else {
+        if (this.isHumanPlayer()) {
+            this.playerInstruction(time);
+        } else {
             this.botInstruction(time);
-//        }
+        }
     }
 
     private boolean isHumanPlayer() {

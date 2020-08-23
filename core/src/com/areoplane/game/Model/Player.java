@@ -1,9 +1,10 @@
-package com.areoplane.game.model;
+package com.areoplane.game.Model;
 
 import java.util.List;
 
 /**
- *
+ * This interface represents a player in an areoplane chess game. This interface supports the function that allows
+ * the client to move/set path/crash its planes, and acquire information of the status and positions of its planes.
  */
 public interface Player {
     /**
@@ -69,6 +70,7 @@ public interface Player {
     int[] getPositions();
 
     // todo testing
+
     /**
      * Returns the positions of which the {@code plane} will crash given the {@code steps}.
      *
@@ -81,6 +83,7 @@ public interface Player {
     List<Integer> stayedPositions(int plane, int steps);
 
     // todo testing exception
+
     /**
      * Returns a list of intermediate positions of which the {@code plane} will pass given the {@code steps}.
      *

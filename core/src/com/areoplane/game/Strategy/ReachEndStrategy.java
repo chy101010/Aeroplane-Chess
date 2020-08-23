@@ -1,18 +1,24 @@
 package com.areoplane.game.Strategy;
 
-import com.areoplane.game.model.AirModel;
-import com.areoplane.game.model.Player;
+import com.areoplane.game.Model.AreoModel;
+import com.areoplane.game.Model.Player;
 
 import java.util.List;
 
+/**
+ * This strategy returns the plane that is the furthest in its path, else return {@code null} if there is no movable
+ * plane.
+ */
 public class ReachEndStrategy implements IStrategy {
+    /**
+     * Constructs a reach end strategy,
+     */
     public ReachEndStrategy() {
-
     }
 
     // Return the furthest movable plane
     @Override
-    public Integer choosePlane(int roll, AirModel board) {
+    public Integer choosePlane(int roll, AreoModel board) {
         int cur = Integer.MIN_VALUE;
         Integer prev = null;
         Player player = board.getTurn();

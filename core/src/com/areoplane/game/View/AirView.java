@@ -5,7 +5,7 @@ import com.areoplane.game.Controller.Features;
 import java.util.List;
 
 /**
- * This interface represents interactive views of the Areo-Plane Chess Game by linking it to {@code Features}.
+ * This interface represents interactive views of the areoplane chess game by linking it to {@code Features}.
  */
 public interface AirView {
     /**

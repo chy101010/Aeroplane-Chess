@@ -9,7 +9,6 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 
-
 public class AreoPlaneGame extends Game {
 	// Value
 	public static final int WORLD_WIDTH = 100;
