@@ -1,4 +1,5 @@
 import com.areoplane.game.Model.Player;
+import com.areoplane.game.Model.PlayerBuilder;
 import com.areoplane.game.Model.PlayerImpl;
 import org.junit.Before;
 import org.junit.Test;
@@ -391,6 +392,11 @@ public class PlayerTest {
         assertEquals(new ArrayList<>(Arrays.asList(49, 50)), this.playerTwo.intermediatePositions(3, 1));
         assertEquals(new ArrayList<>(Arrays.asList(49, 50, 51, 52)), this.playerTwo.intermediatePositions(3, 3));
         assertEquals(new ArrayList<>(Arrays.asList(49, 50, 51, 52, 53, 54, 55)), this.playerTwo.intermediatePositions(3, 6));
+    }
+
+    @Test
+    public void testGetBuilder() {
+        assertNotNull(this.playerOne.getBuilder());
     }
 
     private List<Integer> looper(Player player, int plane) {

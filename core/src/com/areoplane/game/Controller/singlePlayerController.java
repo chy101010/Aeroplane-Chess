@@ -1,8 +1,6 @@
 package com.areoplane.game.Controller;
 
 import com.areoplane.game.FileHandler.AreoFileHandler;
-import com.areoplane.game.Model.AreoBoardImpl;
-import com.areoplane.game.Model.PlayerImpl;
 import com.areoplane.game.Strategy.*;
 import com.areoplane.game.View.AirView;
 import com.areoplane.game.Model.AreoModel;
@@ -11,27 +9,37 @@ import com.areoplane.game.Model.Player;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * This class represents a single player Areoplane chess controller. This controller allows the client to play as red
+ * planes. It allows the client to the roll dice, move the planes, load a game data, delete a game data,
+ * write a game data. It also instruct the {@code AirView} what to display.
+ */
 public class singlePlayerController implements AreoController, Features {
+    // the bot
     private final AiStrategy bot;
+    // the model
     private AreoModel model;
+    // the view
     private AirView view;
-
+    // the file handler.
+    private final AreoFileHandler file;
     // To keep track whether the current player is human player.
     private int humanPlayer = 1;
-
+    // The current {@code Player} in turn.
+    private Player curPlayer;
     // A boolean to keep track whether the current player has executed a move.
     private boolean isMoved;
-
-    // The dice rolled for the current player, {@code null} if the player has rolled
+    // The dice rolled for the current player, {@code null} if the player has rolled.
     private Integer roll;
     private boolean isRolled = false;
 
-    //
-    private Player curPlayer;
-
-    // File Handler
-    private final AreoFileHandler file;
-
+    /**
+     * Constructs a {@code singlePlayerController} with {@code model} and links it to the {@code file}.
+     *
+     * @param model the {@code AreoModel}
+     * @param file  the name of the file
+     * @throws NullPointerException if {@code model} or {@code file} is null.
+     */
     public singlePlayerController(AreoModel model, String file) {
         Objects.requireNonNull(model);
         Objects.requireNonNull(file);
@@ -58,22 +66,35 @@ public class singlePlayerController implements AreoController, Features {
 
     @Override
     public void instruction(int time) {
+        // get the current {@code Player} in turn.
         this.curPlayer = this.model.getTurn();
+        // tell the {@code view} to display the name of the current {@code Player}.
         this.view.setTurn(this.curPlayer.getName());
         if (this.isHumanPlayer()) {
-            this.playerInstruction(time);
+            //
+            this.humanInstruction(time);
         } else {
             this.botInstruction(time);
         }
-//        System.out.print("Controller");
     }
 
+    /**
+     * Checks whether the current player in turn is the human player.
+     *
+     * @return true if the human player is in turn, else false.
+     */
     private boolean isHumanPlayer() {
         return this.humanPlayer == 1;
     }
 
 
-    private void playerInstruction(int time) {
+    /**
+     * Handles the control flow(roll dice -> select the plane to be moved) of the human player
+     * at the given {@code time}, and instructs the {@code view} what to display.
+     *
+     * @param time the count down timer
+     */
+    private void humanInstruction(int time) {
         if (time > 5) {
             this.setNextPlayer();
             return;
@@ -95,6 +116,12 @@ public class singlePlayerController implements AreoController, Features {
         }
     }
 
+    /**
+     * Handles the control flow(roll dice -> select the plane to be moved) of the bot player
+     * at the given {@code time}, and instructs the {@code view} what to display.
+     *
+     * @param time the count down timer
+     */
     private void botInstruction(int time) {
         this.view.setTurn(this.model.getTurn().getName());
         if (time > 3) {
@@ -115,7 +142,8 @@ public class singlePlayerController implements AreoController, Features {
                     this.view.setMessage("Not m ov able");
                 } else {
                     this.view.setMessage("Moved Plane " + move);
-                    this.view.setIntermediate(this.humanPlayer, this.model.intermediatePositions(this.curPlayer, move, this.roll));
+                    this.view.setIntermediate(this.humanPlayer, this.model.intermediatePositions(this.curPlayer,
+                            move, this.roll));
                     this.model.move(this.curPlayer, move, this.roll);
                     this.view.setBoard(this.model.getBoard());
                     this.isMoved = true;
@@ -124,6 +152,12 @@ public class singlePlayerController implements AreoController, Features {
         }
     }
 
+    /**
+     * Sets the next player in turn.
+     * Resets the {@code roll}, {@code isMoved}, {@code isRolled}.
+     * Resets the {@code view}'s timer to 1.
+     * Updates the {@code humanPlayer}.
+     */
     private void setNextPlayer() {
         if (this.roll == null) {
             this.model.nextPlayer(1);
@@ -133,11 +167,14 @@ public class singlePlayerController implements AreoController, Features {
         this.roll = null;
         this.isMoved = false;
         this.isRolled = false;
-        this.setHumanPlayer();
+        this.updateTacker();
         this.view.setTime(1);
     }
 
-    private void setHumanPlayer() {
+    /**
+     * Updates the {@code humanPlayer}.
+     */
+    private void updateTacker() {
         if (!this.curPlayer.equals(this.model.getTurn())) {
             this.humanPlayer = (this.humanPlayer + 1 > 4) ? 1 : this.humanPlayer + 1;
         }
@@ -189,12 +226,13 @@ public class singlePlayerController implements AreoController, Features {
         this.file.writeToFile();
     }
 
-    // todo hard coded builder
     @Override
     public void loadGame(int slot) {
-        AreoModel model = this.file.loadModel(slot, new AreoBoardImpl.Builder(), new PlayerImpl.Builder());
+        AreoModel model = this.file.loadModel(slot, this.model.getBuilder(), this.model.getPlayers()[0].getBuilder());
         if (model != null) {
             this.model = model;
+        } else {
+            throw new NullPointerException("Failed to load the model");
         }
     }
 

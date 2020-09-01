@@ -9,17 +9,28 @@ import java.io.*;
 import java.util.*;
 
 /**
- * A helper to read Areo-Model data and construct an Areo-Model from it, and to append or delete Areo-Model data.
+ * A helper class that can read from a file and temporarily store the its data. A client can write into its
+ * temporary data, or delete. Then the client can write the temporary data into a file. A client can construct a
+ * {@code AreoModel} from its temporary data.
  */
 public class AreoFileHandler {
     private Scanner scanner;
+    // a temporary storage of the data in the String form
+    // that this data will be used to write into the file
     private StringBuilder builder;
-    private final String name;
+    // name of the file - "name.txt" to be read and write into
+    private final String file;
+    // a temporary storage of the data in the Integer array form
     private final Integer[][] data = new Integer[4][16];
 
-
+    /**
+     * Constructs an AreoFileHandler, this is constructor should be used to test data in the String form.
+     *
+     * @param file    name of the file
+     * @param builder a StringBuilder
+     */
     public AreoFileHandler(String file, StringBuilder builder) {
-        this.name = file;
+        this.file = file;
         try {
             File f = new File(file);
             this.builder = builder;
@@ -34,18 +45,30 @@ public class AreoFileHandler {
         }
     }
 
+    /**
+     * A convenient constructor.
+     *
+     * @param file name of the file
+     */
     public AreoFileHandler(String file) {
         this(file, new StringBuilder());
     }
 
 
+    /**
+     * Writes the game data of {@code model} into the {@code slot} of {@code data}. If there  already a game data in
+     * the {@code slot} of {@code data}, then do nothing.
+     *
+     * @param model an {@code AreoModel}
+     * @param slot  the index of the Integer array data to write into
+     * @throws IllegalArgumentException if the given {@code slot} is less than 0 of greater than 3.
+     * @throws NullPointerException if the given {@code model} is null
+     */
     public void writeToData(AreoModel model, int slot) {
         if (slot < 0 || slot > 3) {
             throw new IllegalArgumentException("Select a slot in between 0 - 3");
         }
-        if (model == null) {
-            throw new IllegalArgumentException("The model to be saved can not be null");
-        }
+        Objects.requireNonNull(model);
         if (this.data[slot][0] == null) {
             Player[] players = model.getPlayers();
             Integer[] game = new Integer[16];
@@ -58,23 +81,34 @@ public class AreoFileHandler {
                 }
             }
             this.data[slot] = game;
-            this.fixOrder();
-            this.updateFile();
         }
     }
 
+    /**
+     * Deletes the game data in the {@code slot} of {@code data}.
+     *
+     * @param slot the index of the Integer array data to be deleted
+     * @throws IllegalArgumentException if {@code slot} is less than 0 or greater than 3.
+     */
     public void deleteFromData(int slot) {
         if (slot < 0 || slot > 3) {
             throw new IllegalArgumentException("Select a slot in between 0 - 3");
         }
         if (this.data[slot][0] != null) {
             this.data[slot] = new Integer[16];
-            this.fixOrder();
-            this.updateFile();
         }
     }
 
 
+    /**
+     * Returns a {@code AreoModel} using the game data in the slot of {@code data}.
+     *
+     * @param slot     the index of the Integer array data of be read from
+     * @param mBuilder a builder for {@code AreoModel}
+     * @param pBuilder a builder for {@code Player}
+     * @return the AreoModel
+     * @throws IllegalArgumentException if {@code slot} is less than 0 or greater than 3.
+     */
     public AreoModel loadModel(int slot, AreoBoardBuilder mBuilder, PlayerBuilder pBuilder) {
         if (slot < 0 || slot > 3) {
             throw new IllegalArgumentException("Select a  slot in between 0 - 3");
@@ -97,54 +131,47 @@ public class AreoFileHandler {
         return null;
     }
 
+    /**
+     * Appends the string data in {@code builder} into the text file named {@code file}.
+     */
     public void writeToFile() {
         try {
-            new BufferedWriter(new FileWriter(this.name)).append(this.builder.toString()).close();
+            this.updateStringData();
+            new BufferedWriter(new FileWriter(this.file)).append(this.builder.toString()).close();
         } catch (IOException ioe) {
             System.out.print(ioe.getMessage());
         }
     }
 
+    /**
+     * Returns a copy of the temporary storage of the game data in the 2D Integer array form. Each row holds the game
+     * data for a game. If the first value in a row is {@code Integer.MIN_VALUE}, the that row doesn't have a game data.
+     *
+     * @return a copy of the game data
+     */
     public int[][] getData() {
-        List<int[]> data = new ArrayList<>();
-        int size = 0;
+        int[][] data = new int[4][16];
         for (int i = 0; i < 4; i++) {
+            int[] game = new int[16];
             if (this.data[i][0] != null) {
-                int[] game = new int[16];
                 for (int j = 0; j < 16; j++) {
                     game[j] = this.data[i][j];
                 }
-                data.add(game);
-                size++;
-            }
-        }
-        if (size > 0) {
-            int[][] res = new int[size][16];
-            for (int i = 0; i < data.size(); i++) {
-                res[i] = data.get(i);
-            }
-            return res;
-        }
-        return null;
-    }
-
-
-    private void fixOrder() {
-        Stack<Integer> stack = new Stack<>();
-        for (int i = 0; i < 4; i++) {
-            if (this.data[i][0] == null) {
-                stack.push(i);
             } else {
-                if (!stack.isEmpty()) {
-                    this.data[stack.pop()] = data[i];
-                    this.data[i] = new Integer[16];
-                }
+                game[0] = Integer.MIN_VALUE;
             }
+            data[i] = game;
         }
+        return data;
     }
 
-    private void updateFile() {
+    /**
+     * Updates the data in the String form using the data in the Integer array form.
+     */
+    private void updateStringData() {
+        // clears the String data
         this.builder.setLength(0);
+        // append into the String data
         for (int i = 0; i < 4; i++) {
             if (this.data[i][0] != null) {
                 Integer[] game = this.data[i];
@@ -158,7 +185,7 @@ public class AreoFileHandler {
 
 
     /**
-     * Stores the layout into the {@code data} and {@code appendable}
+     * Loads the game data from the file into the {@code data} and {@code builder}.
      */
     private void preProcess() {
         int index = 0;

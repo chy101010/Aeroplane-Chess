@@ -484,6 +484,11 @@ public class ModelTest {
         assertEquals(new ArrayList<>(Arrays.asList(23, 24, 59, 60, 61, 62, 63)), this.model.intermediatePositions(this.blue, 3, 6));
     }
 
+    @Test
+    public void testGetBuilder() {
+        assertNotNull(this.model.getBuilder());
+    }
+
     private List<Integer> looper(Player player, int plane) {
         List<Integer> arr = new ArrayList<>();
         for (int i = 1; i < 7; i++) {

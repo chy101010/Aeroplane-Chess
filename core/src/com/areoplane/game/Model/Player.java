@@ -85,8 +85,6 @@ public interface Player {
      */
     List<Integer> stayedPositions(int plane, int steps);
 
-    // todo testing exception
-
     /**
      * Returns a list of intermediate positions of which the {@code plane} will pass given the {@code steps}.
      *
@@ -97,4 +95,11 @@ public interface Player {
      *                                  exist or the given steps aren't in the range of 1 to 6;
      */
     List<Integer> intermediatePositions(int plane, int steps);
+
+    /**
+     * Returns the builder.
+     *
+     * @return a {@code PlayerBuilder}
+     */
+    PlayerBuilder getBuilder();
 }

@@ -259,6 +259,10 @@ public class PlayerImpl implements Player {
         return Objects.hash(this.name, this.planes);
     }
 
+    @Override
+    public PlayerBuilder getBuilder() {
+        return new Builder();
+    }
 
     /**
      * Checks whether the given {@code steps} is within 1 to 6.
@@ -316,5 +320,4 @@ public class PlayerImpl implements Player {
             return this;
         }
     }
-
 }

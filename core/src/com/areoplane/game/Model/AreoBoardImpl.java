@@ -221,6 +221,11 @@ public class AreoBoardImpl implements AreoModel {
         return arr;
     }
 
+    @Override
+    public AreoBoardBuilder getBuilder() {
+        return new Builder();
+    }
+
     /**
      * Crashes all the planes at this {@code pos} that are not the planes of the {@code player}.
      *

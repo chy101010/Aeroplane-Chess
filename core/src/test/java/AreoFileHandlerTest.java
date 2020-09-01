@@ -8,17 +8,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
 
+/**
+ * This class test the functionalities of {@code AreoFileHandler}.
+ */
 public class AreoFileHandlerTest {
-
-    private Player a;
-    private Player b;
-    private Player c;
-    private Player d;
-    private Player e;
-    private Player f;
-    private Player g;
-    private Player h;
     private AreoModel m;
     private AreoModel n;
     private AreoModel q;
@@ -27,14 +22,14 @@ public class AreoFileHandlerTest {
 
     @Before
     public void testFixture() {
-        this.a = new PlayerImpl("A", 1, 1, 1, 1);
-        this.b = new PlayerImpl("B", 2, 3, 4, 5);
-        this.c = new PlayerImpl("C", 10, 13, 5, 20);
-        this.d = new PlayerImpl("d", 10, 50, 56, 41);
-        this.e = new PlayerImpl("E", 40, 10, 20, 41);
-        this.f = new PlayerImpl("F", -1, -1, 5, 1);
-        this.g = new PlayerImpl("G", 5, 14, 2, 15);
-        this.h = new PlayerImpl("H", 10, 21, 40, 31);
+        Player a = new PlayerImpl("A", 1, 1, 1, 1);
+        Player b = new PlayerImpl("B", 2, 3, 4, 5);
+        Player c = new PlayerImpl("C", 10, 13, 5, 20);
+        Player d = new PlayerImpl("d", 10, 50, 56, 41);
+        Player e = new PlayerImpl("E", 40, 10, 20, 41);
+        Player f = new PlayerImpl("F", -1, -1, 5, 1);
+        Player g = new PlayerImpl("G", 5, 14, 2, 15);
+        Player h = new PlayerImpl("H", 10, 21, 40, 31);
         this.m = new AreoBoardImpl(a, b, c, d);
         this.n = new AreoBoardImpl(e, f, g, h);
         this.q = new AreoBoardImpl(d, c, b, a);
@@ -44,74 +39,62 @@ public class AreoFileHandlerTest {
 
     @Test
     public void testConstructor() {
-        AreoFileHandler h = new AreoFileHandler("constructor-test.txt", this.builder);
-        assertEquals("10 10 14 10 10 20 30 10 15 -1 1 40 50 21 32 13\n" +
-                "20 20 30 40 50 10 50 10 1 4 5 5 6 6 4 4\n", this.builder.toString());
+        AreoFileHandler h = new AreoFileHandler("constructor-test.txt");
+        assertArrayEquals(new int[]{10, 10, 14, 10, 10, 20, 30, 10, 15, -1, 1, 40, 50, 21, 32, 13}, h.getData()[0]);
+        assertArrayEquals(new int[]{20, 20, 30, 40, 50, 10, 50, 10, 1, 4, 5, 5, 6, 6, 4, 4}, h.getData()[1]);
     }
 
     @Test
     public void testWriteToData() {
-        AreoFileHandler h = new AreoFileHandler("empty-test.txt", this.builder);
-        assertEquals("", this.builder.toString());
+        AreoFileHandler h = new AreoFileHandler("empty-test.txt");
+        assertArrayEquals(new int[]{Integer.MIN_VALUE, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, h.getData()[0]);
         h.writeToData(this.m, 0);
-        assertEquals("1 1 1 1 2 3 4 5 10 13 5 20 10 50 56 41\n", this.builder.toString());
+        assertArrayEquals(new int[]{1, 1, 1, 1, 2, 3, 4, 5, 10, 13, 5, 20, 10, 50, 56, 41}, h.getData()[0]);
         h.writeToData(this.n, 0);
-        assertEquals("1 1 1 1 2 3 4 5 10 13 5 20 10 50 56 41\n", this.builder.toString());
+        assertArrayEquals(new int[]{1, 1, 1, 1, 2, 3, 4, 5, 10, 13, 5, 20, 10, 50, 56, 41}, h.getData()[0]);
         h.writeToData(this.n, 1);
-        assertEquals("1 1 1 1 2 3 4 5 10 13 5 20 10 50 56 41\n" +
-                "40 10 20 41 -1 -1 5 1 5 14 2 15 10 21 40 31\n", this.builder.toString());
+        assertArrayEquals(new int[]{40, 10, 20, 41, -1, -1, 5, 1, 5, 14, 2, 15, 10, 21, 40, 31}, h.getData()[1]);
         h.writeToData(this.p, 3);
-        assertEquals("1 1 1 1 2 3 4 5 10 13 5 20 10 50 56 41\n" +
-                "40 10 20 41 -1 -1 5 1 5 14 2 15 10 21 40 31\n" +
-                "10 21 40 31 5 14 2 15 -1 -1 5 1 40 10 20 41\n", this.builder.toString());
+        assertArrayEquals(new int[]{10, 21, 40, 31, 5, 14, 2, 15, -1, -1, 5, 1, 40, 10, 20, 41}, h.getData()[3]);
     }
 
     @Test
     public void testDeleteFromData() {
-        AreoFileHandler h = new AreoFileHandler("empty-test.txt", this.builder);
+        AreoFileHandler h = new AreoFileHandler("empty-test.txt");
         assertEquals("", this.builder.toString());
         h.writeToData(this.m, 0);
-        assertEquals("1 1 1 1 2 3 4 5 10 13 5 20 10 50 56 41\n", this.builder.toString());
+        assertArrayEquals(new int[]{1, 1, 1, 1, 2, 3, 4, 5, 10, 13, 5, 20, 10, 50, 56, 41}, h.getData()[0]);
         h.writeToData(this.n, 1);
-        assertEquals("1 1 1 1 2 3 4 5 10 13 5 20 10 50 56 41\n" +
-                "40 10 20 41 -1 -1 5 1 5 14 2 15 10 21 40 31\n", this.builder.toString());
+        assertArrayEquals(new int[]{40, 10, 20, 41, -1, -1, 5, 1, 5, 14, 2, 15, 10, 21, 40, 31}, h.getData()[1]);
         h.writeToData(this.q, 2);
-        assertEquals("1 1 1 1 2 3 4 5 10 13 5 20 10 50 56 41\n" +
-                "40 10 20 41 -1 -1 5 1 5 14 2 15 10 21 40 31\n" +
-                "10 50 56 41 10 13 5 20 2 3 4 5 1 1 1 1\n", this.builder.toString());
+        assertArrayEquals(new int[]{10, 50, 56, 41, 10, 13, 5, 20, 2, 3, 4, 5, 1, 1, 1, 1}, h.getData()[2]);
         h.writeToData(this.p, 3);
-        assertEquals("1 1 1 1 2 3 4 5 10 13 5 20 10 50 56 41\n" +
-                "40 10 20 41 -1 -1 5 1 5 14 2 15 10 21 40 31\n" +
-                "10 50 56 41 10 13 5 20 2 3 4 5 1 1 1 1\n" +
-                "10 21 40 31 5 14 2 15 -1 -1 5 1 40 10 20 41\n", this.builder.toString());
+        assertArrayEquals(new int[]{10, 21, 40, 31, 5, 14, 2, 15, -1, -1, 5, 1, 40, 10, 20, 41}, h.getData()[3]);
         h.deleteFromData(2);
-        assertEquals("1 1 1 1 2 3 4 5 10 13 5 20 10 50 56 41\n" +
-                "40 10 20 41 -1 -1 5 1 5 14 2 15 10 21 40 31\n" +
-                "10 21 40 31 5 14 2 15 -1 -1 5 1 40 10 20 41\n", this.builder.toString());
-        h.deleteFromData(2);
-        assertEquals("1 1 1 1 2 3 4 5 10 13 5 20 10 50 56 41\n" +
-                "40 10 20 41 -1 -1 5 1 5 14 2 15 10 21 40 31\n", this.builder.toString());
+        assertArrayEquals(new int[]{Integer.MIN_VALUE, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, h.getData()[2]);
         h.deleteFromData(0);
-        assertEquals("40 10 20 41 -1 -1 5 1 5 14 2 15 10 21 40 31\n", this.builder.toString());
-        h.deleteFromData(0);
-        assertEquals("", this.builder.toString());
+        assertArrayEquals(new int[]{Integer.MIN_VALUE, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, h.getData()[0]);
+        h.deleteFromData(3);
+        assertArrayEquals(new int[]{Integer.MIN_VALUE, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, h.getData()[3]);
+        h.deleteFromData(1);
+        assertArrayEquals(new int[]{Integer.MIN_VALUE, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, h.getData()[1]);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testWriteToDataException1() {
-        AreoFileHandler h = new AreoFileHandler("empty-test.txt", this.builder);
+        AreoFileHandler h = new AreoFileHandler("empty-test.txt");
         h.writeToData(this.m, 4);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testWriteToDataException2() {
-        AreoFileHandler h = new AreoFileHandler("empty-test.txt", this.builder);
+        AreoFileHandler h = new AreoFileHandler("empty-test.txt");
         h.writeToData(this.m, -1);
     }
 
     @Test
     public void testLoadModel() {
-        AreoFileHandler h = new AreoFileHandler("constructor-test.txt", this.builder);
+        AreoFileHandler h = new AreoFileHandler("constructor-test.txt");
         AreoModel model = h.loadModel(0, new AreoBoardImpl.Builder(), new PlayerImpl.Builder());
         Player[] players = model.getPlayers();
         assertArrayEquals(new int[]{10, 10, 14, 10}, players[0].getPositions());
@@ -136,18 +119,10 @@ public class AreoFileHandlerTest {
         assertEquals("Green", players3[3].getName());
     }
 
-//    @Test
-//    public void testWriteToFile() {
-//        AreoFileHandler h = new AreoFileHandler("constructor-test.txt", this.builder);
-//        h.writeToFile();
-//        assertEquals("10 10 14 10 10 20 30 10 15 -1 1 40 50 21 32 13\n" +
-//                "20 20 30 40 50 10 50 10 1 4 5 5 6 6 4 4\n", this.builder.toString());
-//    }
-
     @Test
     public void invalidFile() {
         // 1 2 23 4
-        AreoFileHandler h = new AreoFileHandler("invalid-test.txt", this.builder);
-        assertEquals("", this.builder.toString());
+        AreoFileHandler h = new AreoFileHandler("invalid-test.txt");
+        assertArrayEquals(new int[]{Integer.MIN_VALUE, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, h.getData()[0]);
     }
 }

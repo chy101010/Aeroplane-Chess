@@ -7,6 +7,11 @@ import java.util.List;
  * roll the dice, to move the planes of players, and acquire information/status about the board and the players.
  */
 public interface AreoModel {
+    /**
+     * Returns the string representation of the players' data.
+     *
+     * @return a string representation of the data.
+     */
     String toString();
 
     /**
@@ -134,4 +139,11 @@ public interface AreoModel {
      *                                  the player isn't in the game or the roll isn't 1-6 inclusive
      */
     List<Integer> intermediatePositions(Player player, int identity, int roll);
+
+    /**
+     * Returns the builder.
+     *
+     * @return a {@code AreoBoardBuilder}
+     */
+    AreoBoardBuilder getBuilder();
 }
