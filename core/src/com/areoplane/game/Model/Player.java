@@ -7,6 +7,9 @@ import java.util.List;
  * the client to move/set path/crash its planes, and acquire information of the status and positions of its planes.
  */
 public interface Player {
+    //todo Testing
+    String toString();
+
     /**
      * Moves the given move-able {@code plane} to with the amount of {@code steps}.
      *

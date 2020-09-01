@@ -13,6 +13,7 @@ public class AreoPlaneGame extends Game {
 	// Value
 	public static final int WORLD_WIDTH = 100;
 	public static final int WORLD_HEIGHT = 100;
+	public static final String file = "Games.txt";
 
 	// Drawing
 	public SpriteBatch batch;

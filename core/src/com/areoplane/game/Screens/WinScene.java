@@ -40,18 +40,17 @@ public class WinScene extends ScreenAdapter {
         if (Gdx.input.justTouched()) {
             Vector3 vector = game.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 
-            if (this.quit.contains(vector.x, vector.y)) {
-                this.game.setScreen(new MainMenuScreen(this.game));
-                return;
-            }
+//            if (this.quit.contains(vector.x, vector.y)) {
+//                this.game.setScreen(new MainMenuScreen(this.game));
+//                return;
+//            }
 
-            if (this.newGame.contains(vector.x, vector.y)) {
-                GameScene scene = new GameScene(this.game);
-                AreoController controller = new singlePlayerController(
-                        new AreoBoardImpl(), scene);
-                controller.play();
-                this.game.setScreen(scene);
-            }
+//            if (this.newGame.contains(vector.x, vector.y)) {
+//                GameScene scene = new GameScene(this.game);
+//                AreoController controller = new singlePlayerController(new AreoBoardImpl(), AreoPlaneGame.file);
+//                controller.play();
+//                this.game.setScreen(scene);
+//            }
         }
     }
 

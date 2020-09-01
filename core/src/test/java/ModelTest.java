@@ -1,4 +1,3 @@
-
 import com.areoplane.game.Model.AreoBoardImpl;
 import com.areoplane.game.Model.AreoModel;
 import com.areoplane.game.Model.Player;
@@ -11,12 +10,12 @@ import java.util.*;
 import static org.junit.Assert.*;
 
 public class ModelTest {
-    private Random rand = new Random();
-    AreoModel model;
-    Player red;
-    Player yellow;
-    Player blue;
-    Player green;
+    private final Random rand = new Random();
+    private AreoModel model;
+    private Player red;
+    private Player yellow;
+    private Player blue;
+    private Player green;
 
     @Before
     public void testFixture() {
@@ -28,434 +27,178 @@ public class ModelTest {
         this.model = new AreoBoardImpl(this.red, this.yellow, this.blue, this.green, this.rand);
     }
 
-//     Random Seed 1
-//    @Test
-//    public void testToString() {
-//        assertEquals("                        [    ][    ][    ][    ][    ][    ][    ][    ][2222]            \n" +
-//                "                        [    ]            [    ]            [    ]                        \n" +
-//                "[1111]                  [    ]            [    ]            [    ]                        \n" +
-//                "[    ]                  [    ]            [    ]            [    ]                        \n" +
-//                "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                "[    ]                                    [    ]                                    [    ]\n" +
-//                "[    ]                                    [    ]                                    [    ]\n" +
-//                "[    ][    ][    ][    ][    ][    ][    ]      [    ][    ][    ][    ][    ][    ][    ]\n" +
-//                "[    ]                                    [    ]                                    [    ]\n" +
-//                "[    ]                                    [    ]                                    [    ]\n" +
-//                "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                "                        [    ]            [    ]            [    ]                  [    ]\n" +
-//                "                        [    ]            [    ]            [    ]                  [3333]\n" +
-//                "                        [    ]            [    ]            [    ]                        \n" +
-//                "            [0000][    ][    ][    ][    ][    ][    ][    ][    ]                        \n", this.model.toString());
-//        this.red.setPath(1);
-//        this.red.setPath(0);
-//        this.red.move(1, 2);
-//        this.red.move(1, 6);
-//        this.red.move(1, 6);
-//        this.red.move(1, 6);
-//        this.red.move(1, 6);
-//        this.red.move(1, 6);
-//        this.red.move(0, 6);
-//        this.red.move(0, 6);
-//        this.red.move(0, 2);
-//        this.yellow.setPath(1);
-//        this.yellow.move(1, 6);
-//        this.blue.setPath(3);
-//        this.blue.move(3, 1);
-//        this.blue.move(3, 3);
-//        this.blue.setPath(1);
-//        this.green.setPath(1);
-//        this.green.move(1, 6);
-//        this.green.move(1, 4);
-//        this.green.setPath(0);
-//        this.green.move(0, 5);
-//        this.green.move(0, 5);
-//        assertEquals(
-//                "                        [    ][    ][1   ][    ][    ][    ][    ][2   ][22  ]            \n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "[111 ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[    ]                  [    ]            [    ]            [2   ]                        \n" +
-//                        "[    ][    ][    ][3   ]                  [    ]                  [    ][    ][    ][0   ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ][    ][    ][    ]      [    ][    ][    ][    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [0   ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [33  ]\n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "            [00  ][    ][3   ][    ][    ][    ][    ][    ][    ]                        \n", this.model.toString());
-//        this.green.move(0, 5);
-//        this.green.move(0, 3);
-//        this.green.move(0, 4);
-//        this.green.move(0, 4);
-//        this.green.move(0, 4);
-//        this.green.move(0, 1);
-//        assertEquals(
-//                "                        [    ][    ][1   ][    ][    ][    ][    ][2   ][22  ]            \n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "[111 ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[    ]                  [    ]            [    ]            [2   ]                        \n" +
-//                        "[    ][    ][    ][3   ]                  [    ]                  [    ][    ][    ][0   ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ][    ][    ][    ]      [    ][    ][    ][    ][    ][3   ][    ]\n" +
-//                        "[    ]                                    [0   ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [33  ]\n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "            [00  ][    ][    ][    ][    ][    ][    ][    ][    ]                        \n", this.model.toString());
-//        this.yellow.move(1, 4);
-//        this.yellow.move(1, 4);
-//        this.yellow.move(1, 4);
-//        this.yellow.move(1, 6);
-//        assertEquals(
-//                "                        [    ][    ][    ][    ][    ][    ][    ][2   ][22  ]            \n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "[111 ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[    ]                  [    ]            [    ]            [2   ]                        \n" +
-//                        "[    ][    ][    ][3   ]                  [    ]                  [    ][    ][    ][0   ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][1   ][    ][    ][    ][    ]      [    ][    ][    ][    ][    ][3   ][    ]\n" +
-//                        "[    ]                                    [0   ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [33  ]\n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "            [00  ][    ][    ][    ][    ][    ][    ][    ][    ]                        \n", this.model.toString());
-//
-//    }
-//
-//    @Test
-//    public void rollDice() {
-//        assertEquals(4, this.model.rollDice());
-//        assertEquals(5, this.model.rollDice());
-//        assertEquals(2, this.model.rollDice());
-//        assertEquals(4, this.model.rollDice());
-//        assertEquals(3, this.model.rollDice());
-//        assertEquals(5, this.model.rollDice());
-//        assertEquals(3, this.model.rollDice());
-//        assertEquals(5, this.model.rollDice());
-//        assertEquals(5, this.model.rollDice());
-//        assertEquals(5, this.model.rollDice());
-//        assertEquals(2, this.model.rollDice());
-//        assertEquals(2, this.model.rollDice());
-//        assertEquals(2, this.model.rollDice());
-//        assertEquals(4, this.model.rollDice());
-//        assertEquals(1, this.model.rollDice());
-//        assertEquals(5, this.model.rollDice());
-//        assertEquals(3, this.model.rollDice());
-//        assertEquals(1, this.model.rollDice());
-//        assertEquals(1, this.model.rollDice());
-//        assertEquals(6, this.model.rollDice());
-//    }
+    //     Random Seed 1
+    @Test
+    public void testToString() {
+        assertEquals("-1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1", this.model.toString());
+        this.red.setPath(1);
+        this.red.setPath(0);
+        this.red.move(1, 2);
+        this.red.move(1, 6);
+        this.red.move(1, 6);
+        this.red.move(1, 6);
+        this.red.move(1, 6);
+        this.red.move(1, 6);
+        this.red.move(0, 6);
+        this.red.move(0, 6);
+        this.red.move(0, 2);
+        this.yellow.setPath(1);
+        this.yellow.move(1, 6);
+        this.blue.setPath(3);
+        this.blue.move(3, 1);
+        this.blue.move(3, 3);
+        this.blue.setPath(1);
+        this.green.setPath(1);
+        this.green.move(1, 6);
+        this.green.move(1, 4);
+        this.green.setPath(0);
+        this.green.move(0, 5);
+        this.green.move(0, 5);
+        assertEquals("34 56 -1 -1 -1 10 -1 -1 -1 0 -1 4 14 30 -1 -1", this.model.toString());
+        this.green.move(0, 5);
+        this.green.move(0, 3);
+        this.green.move(0, 4);
+        this.green.move(0, 4);
+        this.green.move(0, 4);
+        this.green.move(0, 1);
+        assertEquals("34 56 -1 -1 -1 10 -1 -1 -1 0 -1 4 51 30 -1 -1", this.model.toString());
+        this.yellow.move(1, 4);
+        this.yellow.move(1, 4);
+        this.yellow.move(1, 4);
+        this.yellow.move(1, 6);
+        assertEquals("34 56 -1 -1 -1 52 -1 -1 -1 0 -1 4 51 30 -1 -1", this.model.toString());
+    }
 
-//    @Test
-//    public void testMove() {
-//        this.model.move(this.red, 0, 5);
-//        this.model.move(this.yellow, 0, 6);
-//        this.model.move(this.blue, 0, 6);
-//        this.model.move(this.green, 0, 5);
-//        assertEquals(
-//                "                        [    ][    ][    ][    ][    ][    ][    ][2   ][222 ]            \n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "[111 ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[1   ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ][    ][    ][    ]      [    ][    ][    ][    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [3   ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [333 ]\n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "            [000 ][0   ][    ][    ][    ][    ][    ][    ][    ]                        \n", this.model.toString());
-//        this.model.move(this.red, 0, 2);
-//        this.model.move(this.yellow, 0, 1);
-//        this.model.move(this.blue, 0, 4);
-//        this.model.move(this.green, 0, 3);
-//        assertEquals(
-//                "                        [    ][    ][    ][    ][    ][    ][    ][    ][222 ]            \n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "[111 ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[    ]                  [    ]            [    ]            [2   ]                        \n" +
-//                        "[1   ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ][    ][    ][    ]      [    ][    ][    ][    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][0   ][    ]                  [    ]                  [    ][3   ][    ][    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [333 ]\n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "            [000 ][    ][    ][    ][    ][    ][    ][    ][    ]                        \n", this.model.toString());
-//        // Jump Crash
-//        this.model.move(this.red, 0, 4);
-//        this.model.move(this.blue, 0, 4);
-//        this.model.move(this.blue, 1, 5);
-//        this.model.move(this.blue, 1, 4);
-//        this.model.move(this.green, 0, 3);
-//        assertEquals(
-//                "                        [    ][    ][    ][    ][    ][    ][    ][    ][22  ]            \n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "[1111]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[    ]                  [    ]            [    ]            [2   ]                        \n" +
-//                        "[0   ][    ][    ][    ]                  [    ]                  [    ][    ][    ][2   ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ][    ][    ][    ]      [    ][    ][    ][    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [333 ]\n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "            [000 ][    ][    ][    ][    ][    ][3   ][    ][    ]                        \n", this.model.toString());
-//        // Jumping from tile 18 that crashes plane at 30 and 34
-//        // Short Cut Crash Jump Crash
-//        this.model.move(this.red, 0, 4);
-//        this.model.move(this.yellow, 0, 5);
-//        this.model.move(this.yellow, 1, 6);
-//        this.model.move(this.yellow, 2, 5);
-//        this.model.move(this.yellow, 3, 6);
-//        this.model.move(this.green, 0, 3);
-//        this.model.move(this.green, 1, 5);
-//        assertEquals(
-//                "                        [    ][    ][    ][    ][    ][    ][    ][    ][2222]            \n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "[    ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[1111]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][0   ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ][    ][    ][    ]      [    ][    ][    ][    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [3   ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [33  ]\n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "            [000 ][    ][    ][3   ][    ][    ][    ][    ][    ]                        \n", this.model.toString());
-//        this.model.move(this.red, 0, 4);
-//        this.model.move(this.yellow, 0, 6);
-//        this.model.move(this.yellow, 1, 6);
-//        this.model.move(this.yellow, 1, 6);
-//        this.model.move(this.blue, 0, 5);
-//        this.model.move(this.blue, 1, 6);
-//        this.model.move(this.green, 0, 5);
-//        assertEquals(
-//                "                        [3   ][    ][1   ][    ][    ][    ][    ][22  ][22  ]            \n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "[    ]                  [    ]            [    ]            [1   ]                        \n" +
-//                        "[11  ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ][    ][    ][    ]      [    ][    ][    ][    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][0   ][    ][    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [3   ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [33  ]\n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "            [000 ][    ][    ][    ][    ][    ][    ][    ][    ]                        \n", this.model.toString());
-//        this.model.move(this.red, 0, 4);
-//        this.model.move(this.red, 1, 6);
-//        this.model.move(this.yellow, 0, 5);
-//        this.model.move(this.yellow, 1, 2);
-//        // Crash and Jump
-//        this.model.move(this.blue, 0, 2);
-//        this.model.move(this.blue, 1, 6);
-//        this.model.move(this.green, 0, 5);
-//        assertEquals(
-//                "                        [    ][    ][    ][    ][    ][3   ][    ][    ][22  ]            \n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "[1   ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[11  ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][2   ][    ][    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [2   ]\n" +
-//                        "[    ][    ][    ][    ][    ][    ][    ]      [    ][    ][    ][    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [3   ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [33  ]\n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "            [00  ][0   ][    ][    ][    ][0   ][    ][    ][1   ]                        \n", this.model.toString());
-//        this.model.move(this.red, 0, 6);
-//        this.model.move(this.yellow, 1, 2);
-//        this.model.move(this.blue, 0, 4);
-//        this.model.move(this.blue, 1, 2);
-//        this.model.move(this.green, 0, 6);
-//        this.model.move(this.green, 1, 2);
-//        assertEquals(
-//                "                        [    ][    ][    ][    ][    ][    ][    ][    ][22  ]            \n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "[1   ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[11  ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][3   ][    ][    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ][    ][    ][    ]      [    ][    ][    ][    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [0   ]                                    [2   ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][2   ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [    ]\n" +
-//                        "                        [    ]            [    ]            [3   ]                  [33  ]\n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "            [00  ][0   ][    ][    ][    ][    ][1   ][    ][    ]                        \n", this.model.toString());
-//        // Crash
-//        this.model.move(this.yellow, 1, 2);
-//        this.model.move(this.blue, 0, 1);
-//        this.model.move(this.green, 0, 6);
-//        // Crash and Jump
-//        this.model.move(this.green, 2, 5);
-//        this.model.move(this.green, 2, 2);
-//        this.model.move(this.green, 1, 6);
-//        this.model.move(this.green, 1, 2);
-//        assertEquals(
-//                "                        [    ][    ][    ][    ][    ][    ][    ][    ][222 ]            \n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "[1   ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[11  ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[    ][    ][    ][3   ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ][    ][    ][    ]      [    ][    ][    ][    ][    ][3   ][    ]\n" +
-//                        "[    ]                                    [0   ]                                    [2   ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [    ]\n" +
-//                        "                        [1   ]            [    ]            [3   ]                  [3   ]\n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "            [00  ][0   ][    ][    ][    ][    ][    ][    ][    ]                        \n", this.model.toString());
-//        this.model.move(this.green, 0, 6);
-//        this.model.move(this.yellow, 1, 4);
-//        this.model.move(this.blue, 1, 6);
-//        this.model.move(this.blue, 1, 1);
-//        assertEquals(
-//                "                        [    ][    ][    ][    ][    ][    ][    ][    ][222 ]            \n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "[1   ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[11  ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[    ][    ][    ][3   ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[1   ][    ][    ][    ][    ][    ][    ]      [    ][3   ][    ][    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [0   ]                                    [    ]\n" +
-//                        "[2   ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [    ]\n" +
-//                        "                        [    ]            [    ]            [3   ]                  [3   ]\n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "            [00  ][0   ][    ][    ][    ][    ][    ][    ][    ]                        \n", this.model.toString());
-//        this.model.move(this.yellow, 1, 6);
-//        this.model.move(this.yellow, 3, 2);
-//        this.model.move(this.green, 0, 1);
-//        this.model.move(this.green, 1, 6);
-//        this.model.move(this.blue, 1, 6);
-//        this.model.move(this.blue, 1, 1);
-//        assertEquals(
-//                "                        [    ][    ][3   ][    ][    ][    ][    ][    ][222 ]            \n" +
-//                        "                        [2   ]            [    ]            [    ]                        \n" +
-//                        "[1   ]                  [1   ]            [    ]            [    ]                        \n" +
-//                        "[1   ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ][    ][    ][1   ]      [3   ][    ][    ][    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [0   ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [    ]\n" +
-//                        "                        [    ]            [    ]            [3   ]                  [3   ]\n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "            [00  ][0   ][    ][    ][    ][    ][    ][    ][    ]                        \n", this.model.toString());
-//        this.model.move(this.yellow, 3, 6);
-//        this.model.move(this.green, 1, 4);
-//        this.model.move(this.blue, 1, 6);
-//        assertEquals(
-//                "                        [    ][    ][    ][    ][1   ][    ][3   ][    ][222 ]            \n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "[1   ]                  [    ]            [2   ]            [    ]                        \n" +
-//                        "[1   ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ][    ][    ][1   ]      [3   ][    ][    ][    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [0   ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [    ]\n" +
-//                        "                        [    ]            [    ]            [3   ]                  [3   ]\n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "            [00  ][0   ][    ][    ][    ][    ][    ][    ][    ]                        \n", this.model.toString());
-//        // Crash - Jump - Short Cut
-//        this.model.move(this.yellow, 3, 2);
-//        this.model.move(this.blue, 1, 5);
-//        assertEquals(
-//                "                        [    ][    ][    ][    ][    ][    ][    ][    ][222 ]            \n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "[1   ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[1   ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [2   ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ][    ][    ][1   ]      [3   ][    ][    ][    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [0   ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [1   ][    ][    ][    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [    ]\n" +
-//                        "                        [    ]            [    ]            [3   ]                  [33  ]\n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "            [00  ][0   ][    ][    ][    ][    ][    ][    ][    ]                        \n", this.model.toString());
-//        this.model.move(this.yellow, 2, 5);
-//        this.model.move(this.blue, 2, 5);
-//        this.model.move(this.blue, 2, 4);
-//        assertEquals(
-//                "                        [    ][    ][    ][    ][    ][    ][    ][    ][22  ]            \n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "[1   ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[    ]                  [1   ]            [    ]            [2   ]                        \n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [2   ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ][    ][    ][1   ]      [3   ][    ][    ][    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [0   ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [1   ][    ][    ][    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [    ]\n" +
-//                        "                        [    ]            [    ]            [3   ]                  [33  ]\n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "            [00  ][0   ][    ][    ][    ][    ][    ][    ][    ]                        \n", this.model.toString());
-//        // Jump - Crash - Short Cut - Crash
-//        this.model.move(this.red, 1, 6);
-//        this.model.move(this.red, 1, 4);
-//        assertEquals(
-//                "                        [    ][    ][    ][    ][    ][    ][    ][    ][222 ]            \n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "[11  ]                  [    ]            [    ]            [    ]                        \n" +
-//                        "[    ]                  [    ]            [    ]            [0   ]                        \n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [2   ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ][    ][    ][1   ]      [3   ][    ][    ][    ][    ][    ][    ]\n" +
-//                        "[    ]                                    [0   ]                                    [    ]\n" +
-//                        "[    ]                                    [    ]                                    [    ]\n" +
-//                        "[    ][    ][    ][    ]                  [    ]                  [1   ][    ][    ][    ]\n" +
-//                        "                        [    ]            [    ]            [    ]                  [    ]\n" +
-//                        "                        [    ]            [    ]            [3   ]                  [33  ]\n" +
-//                        "                        [    ]            [    ]            [    ]                        \n" +
-//                        "            [00  ][    ][    ][    ][    ][    ][    ][    ][    ]                        \n", this.model.toString());
-//    }
+    @Test
+    public void rollDice() {
+        assertEquals(4, this.model.rollDice());
+        assertEquals(5, this.model.rollDice());
+        assertEquals(2, this.model.rollDice());
+        assertEquals(4, this.model.rollDice());
+        assertEquals(3, this.model.rollDice());
+        assertEquals(5, this.model.rollDice());
+        assertEquals(3, this.model.rollDice());
+        assertEquals(5, this.model.rollDice());
+        assertEquals(5, this.model.rollDice());
+        assertEquals(5, this.model.rollDice());
+        assertEquals(2, this.model.rollDice());
+        assertEquals(2, this.model.rollDice());
+        assertEquals(2, this.model.rollDice());
+        assertEquals(4, this.model.rollDice());
+        assertEquals(1, this.model.rollDice());
+        assertEquals(5, this.model.rollDice());
+        assertEquals(3, this.model.rollDice());
+        assertEquals(1, this.model.rollDice());
+        assertEquals(1, this.model.rollDice());
+        assertEquals(6, this.model.rollDice());
+    }
+
+    @Test
+    public void testMove() {
+        this.model.move(this.red, 0, 5);
+        this.model.move(this.yellow, 0, 6);
+        this.model.move(this.blue, 0, 6);
+        this.model.move(this.green, 0, 5);
+        assertEquals(
+                "0 -1 -1 -1 0 -1 -1 -1 0 -1 -1 -1 0 -1 -1 -1", this.model.toString());
+        this.model.move(this.red, 0, 2);
+        this.model.move(this.yellow, 0, 1);
+        this.model.move(this.blue, 0, 4);
+        this.model.move(this.green, 0, 3);
+        assertEquals(
+                "6 -1 -1 -1 1 -1 -1 -1 4 -1 -1 -1 3 -1 -1 -1", this.model.toString());
+        // Jump Crash
+        this.model.move(this.red, 0, 4);
+        this.model.move(this.blue, 0, 4);
+        this.model.move(this.blue, 1, 5);
+        this.model.move(this.blue, 1, 4);
+        this.model.move(this.green, 0, 3);
+        assertEquals(
+                "14 -1 -1 -1 -1 -1 -1 -1 8 4 -1 -1 10 -1 -1 -1", this.model.toString());
+        // Jumping from tile 18 that crashes plane at 30 and 34
+        // Short Cut Crash Jump Crash
+        this.model.move(this.red, 0, 4);
+        this.model.move(this.yellow, 0, 5);
+        this.model.move(this.yellow, 1, 6);
+        this.model.move(this.yellow, 2, 5);
+        this.model.move(this.yellow, 3, 6);
+        this.model.move(this.green, 0, 3);
+        this.model.move(this.green, 1, 5);
+        assertEquals(
+                "34 -1 -1 -1 0 0 0 0 -1 -1 -1 -1 13 0 -1 -1", this.model.toString());
+        this.model.move(this.red, 0, 4);
+        this.model.move(this.yellow, 0, 6);
+        this.model.move(this.yellow, 1, 6);
+        this.model.move(this.yellow, 1, 6);
+        this.model.move(this.blue, 0, 5);
+        this.model.move(this.blue, 1, 6);
+        this.model.move(this.green, 0, 5);
+        assertEquals(
+                "42 -1 -1 -1 10 16 0 0 0 0 -1 -1 34 0 -1 -1", this.model.toString());
+        this.model.move(this.red, 0, 4);
+        this.model.move(this.red, 1, 6);
+        this.model.move(this.yellow, 0, 5);
+        this.model.move(this.yellow, 1, 2);
+        // Crash and Jump
+        this.model.move(this.blue, 0, 2);
+        this.model.move(this.blue, 1, 6);
+        this.model.move(this.green, 0, 5);
+        assertEquals(
+                "50 0 -1 -1 -1 34 0 0 6 10 -1 -1 39 0 -1 -1", this.model.toString());
+        this.model.move(this.red, 0, 6);
+        this.model.move(this.yellow, 1, 2);
+        this.model.move(this.blue, 0, 4);
+        this.model.move(this.blue, 1, 2);
+        this.model.move(this.green, 0, 6);
+        this.model.move(this.green, 1, 2);
+        assertEquals(
+                "56 0 -1 -1 -1 36 0 0 14 12 -1 -1 45 6 -1 -1", this.model.toString());
+        // Crash
+        this.model.move(this.yellow, 1, 2);
+        this.model.move(this.blue, 0, 1);
+        this.model.move(this.green, 0, 6);
+        // Crash and Jump
+        this.model.move(this.green, 2, 5);
+        this.model.move(this.green, 2, 2);
+        this.model.move(this.green, 1, 6);
+        this.model.move(this.green, 1, 2);
+        assertEquals(
+                "56 0 -1 -1 -1 42 0 0 -1 12 -1 -1 51 30 6 -1", this.model.toString());
+        this.model.move(this.green, 0, 6);
+        this.model.move(this.yellow, 1, 4);
+        this.model.move(this.blue, 1, 6);
+        this.model.move(this.blue, 1, 1);
+        assertEquals(
+                "56 0 -1 -1 -1 50 0 0 -1 35 -1 -1 55 30 6 -1", this.model.toString());
+        this.model.move(this.yellow, 1, 6);
+        this.model.move(this.yellow, 3, 2);
+        this.model.move(this.green, 0, 1);
+        this.model.move(this.green, 1, 6);
+        this.model.move(this.blue, 1, 6);
+        this.model.move(this.blue, 1, 1);
+        assertEquals(
+                "56 0 -1 -1 -1 56 0 6 -1 46 -1 -1 56 36 6 -1", this.model.toString());
+        this.model.move(this.yellow, 3, 6);
+        this.model.move(this.green, 1, 4);
+        this.model.move(this.blue, 1, 6);
+        assertEquals(
+                "56 0 -1 -1 -1 56 0 12 -1 52 -1 -1 56 40 6 -1", this.model.toString());
+        // Crash - Jump - Short Cut
+        this.model.move(this.yellow, 3, 2);
+        this.model.move(this.blue, 1, 5);
+        assertEquals(
+                "56 0 -1 -1 -1 56 0 30 -1 55 -1 -1 56 -1 6 -1", this.model.toString());
+        this.model.move(this.yellow, 2, 5);
+        this.model.move(this.blue, 2, 5);
+        this.model.move(this.blue, 2, 4);
+        assertEquals(
+                "56 0 -1 -1 -1 56 5 30 -1 55 4 -1 56 -1 6 -1", this.model.toString());
+        // Jump - Crash - Short Cut - Crash
+        this.model.move(this.red, 1, 6);
+        this.model.move(this.red, 1, 4);
+        assertEquals(
+                "56 30 -1 -1 -1 56 -1 30 -1 55 -1 -1 56 -1 6 -1", this.model.toString());
+    }
 
     @Test
     public void getTurnSetNextPlayer() {
@@ -481,7 +224,7 @@ public class ModelTest {
         this.model.move(this.red, 1, 6);
         this.model.move(this.red, 2, 6);
         this.model.move(this.red, 3, 6);
-        assertEquals(null, this.model.getWinner());
+        assertNull(this.model.getWinner());
         this.model.move(this.red, 0, 6);
         this.model.move(this.red, 1, 6);
         this.model.move(this.red, 2, 6);
@@ -489,7 +232,7 @@ public class ModelTest {
         this.model.move(this.red, 0, 6);
         this.model.move(this.red, 1, 6);
         this.model.move(this.red, 2, 6);
-        assertEquals(null, this.model.getWinner());
+        assertNull(this.model.getWinner());
         this.model.move(this.red, 3, 6);
         this.model.move(this.red, 0, 6);
         this.model.move(this.red, 1, 6);
@@ -505,7 +248,7 @@ public class ModelTest {
         this.model.move(this.red, 2, 6);
         this.model.move(this.red, 3, 6);
         this.model.move(this.red, 0, 6);
-        assertEquals(null, this.model.getWinner());
+        assertNull(this.model.getWinner());
         this.model.move(this.red, 1, 6);
         this.model.move(this.red, 2, 6);
         this.model.move(this.red, 3, 6);
@@ -616,7 +359,7 @@ public class ModelTest {
     public void testMovablePlanes() {
         assertEquals(new ArrayList<>(), this.model.movablePlanes(this.red, 1));
         this.model.move(this.red, 1, 5);
-        assertEquals(new ArrayList<>(Arrays.asList(1)), this.model.movablePlanes(this.red, 1));
+        assertEquals(new ArrayList<>(Collections.singletonList(1)), this.model.movablePlanes(this.red, 1));
         this.model.move(this.red, 1, 6);
         this.model.move(this.red, 0, 5);
         assertEquals(new ArrayList<>(Arrays.asList(0, 1)), this.model.movablePlanes(this.red, 4));
@@ -684,61 +427,61 @@ public class ModelTest {
     }
 
     @Test
-    public void testIntermediatePositions(){
+    public void testIntermediatePositions() {
         this.red = new PlayerImpl("One", -1, 13, 14, 55);
         this.blue = new PlayerImpl("Two", 0, 24, 41, 49);
         this.model = new AreoBoardImpl(this.red, this.yellow, this.blue, this.green, new Random());
         // PlayerOne
         // testing set path
-        assertEquals(new ArrayList<>(Arrays.asList(77, 78)), this.model.intermediatePositions(this.red,0, 5));
+        assertEquals(new ArrayList<>(Arrays.asList(77, 78)), this.model.intermediatePositions(this.red, 0, 5));
         // testing set path
-        assertEquals(new ArrayList<>(Arrays.asList(77, 78)), this.model.intermediatePositions(this.red,0, 5));
+        assertEquals(new ArrayList<>(Arrays.asList(77, 78)), this.model.intermediatePositions(this.red, 0, 5));
         // testing set path
-        assertEquals(new ArrayList<>(Arrays.asList(77, 78)), this.model.intermediatePositions(this.red,0, 6));
+        assertEquals(new ArrayList<>(Arrays.asList(77, 78)), this.model.intermediatePositions(this.red, 0, 6));
         // testing set path
-        assertEquals(new ArrayList<>(Collections.singletonList(77)), this.model.intermediatePositions(this.red,0, 1));
+        assertEquals(new ArrayList<>(Collections.singletonList(77)), this.model.intermediatePositions(this.red, 0, 1));
         // testing jump from 14
-        assertEquals(new ArrayList<>(Arrays.asList(13, 14, 15, 16, 17, 18, 30)), this.model.intermediatePositions(this.red,1, 1));
+        assertEquals(new ArrayList<>(Arrays.asList(13, 14, 15, 16, 17, 18, 30)), this.model.intermediatePositions(this.red, 1, 1));
         // testing move
-        assertEquals(new ArrayList<>(Arrays.asList(13, 14, 15)), this.model.intermediatePositions(this.red,1, 2));
+        assertEquals(new ArrayList<>(Arrays.asList(13, 14, 15)), this.model.intermediatePositions(this.red, 1, 2));
         // testing jump from 18
-        assertEquals(new ArrayList<>(Arrays.asList(13, 14, 15, 16, 17, 18, 30, 31, 32, 33, 34)), this.model.intermediatePositions(this.red,1, 5));
+        assertEquals(new ArrayList<>(Arrays.asList(13, 14, 15, 16, 17, 18, 30, 31, 32, 33, 34)), this.model.intermediatePositions(this.red, 1, 5));
         // testing move
-        assertEquals(new ArrayList<>(Arrays.asList(13, 14, 15, 16, 17, 18, 19)), this.model.intermediatePositions(this.red,1, 6));
-        assertEquals(new ArrayList<>(Arrays.asList(14, 15)), this.model.intermediatePositions(this.red,2, 1));
+        assertEquals(new ArrayList<>(Arrays.asList(13, 14, 15, 16, 17, 18, 19)), this.model.intermediatePositions(this.red, 1, 6));
+        assertEquals(new ArrayList<>(Arrays.asList(14, 15)), this.model.intermediatePositions(this.red, 2, 1));
         // testing move
-        assertEquals(new ArrayList<>(Arrays.asList(14, 15, 16)), this.model.intermediatePositions(this.red,2, 2));
+        assertEquals(new ArrayList<>(Arrays.asList(14, 15, 16)), this.model.intermediatePositions(this.red, 2, 2));
         // testing move
-        assertEquals(new ArrayList<>(Arrays.asList(14, 15, 16, 17)), this.model.intermediatePositions(this.red,2, 3));
+        assertEquals(new ArrayList<>(Arrays.asList(14, 15, 16, 17)), this.model.intermediatePositions(this.red, 2, 3));
         // testing jump from 18
-        assertEquals(new ArrayList<>(Arrays.asList(14, 15, 16, 17, 18, 30, 31, 32, 33, 34)), this.model.intermediatePositions(this.red,2, 4));
+        assertEquals(new ArrayList<>(Arrays.asList(14, 15, 16, 17, 18, 30, 31, 32, 33, 34)), this.model.intermediatePositions(this.red, 2, 4));
         // testing move
-        assertEquals(new ArrayList<>(Arrays.asList(14, 15, 16, 17, 18, 19)), this.model.intermediatePositions(this.red,2, 5));
+        assertEquals(new ArrayList<>(Arrays.asList(14, 15, 16, 17, 18, 19)), this.model.intermediatePositions(this.red, 2, 5));
         // testing move
-        assertEquals(new ArrayList<>(Arrays.asList(14, 15, 16, 17, 18, 19, 20)), this.model.intermediatePositions(this.red,2, 6));
+        assertEquals(new ArrayList<>(Arrays.asList(14, 15, 16, 17, 18, 19, 20)), this.model.intermediatePositions(this.red, 2, 6));
         // testing move
-        assertEquals(new ArrayList<>(Arrays.asList(75, 76)), this.model.intermediatePositions(this.red,3, 1));
+        assertEquals(new ArrayList<>(Arrays.asList(75, 76)), this.model.intermediatePositions(this.red, 3, 1));
         // testing bounce
-        assertEquals(new ArrayList<>(Arrays.asList(75, 76, 75)), this.model.intermediatePositions(this.red,3, 2));
+        assertEquals(new ArrayList<>(Arrays.asList(75, 76, 75)), this.model.intermediatePositions(this.red, 3, 2));
         // testing bounce
-        assertEquals(new ArrayList<>(Arrays.asList(75, 76, 75, 74)), this.model.intermediatePositions(this.red,3, 3));
+        assertEquals(new ArrayList<>(Arrays.asList(75, 76, 75, 74)), this.model.intermediatePositions(this.red, 3, 3));
         // testing bounce
-        assertEquals(new ArrayList<>(Arrays.asList(75, 76, 75, 74, 73)), this.model.intermediatePositions(this.red,3, 4));
+        assertEquals(new ArrayList<>(Arrays.asList(75, 76, 75, 74, 73)), this.model.intermediatePositions(this.red, 3, 4));
         // testing bounce
-        assertEquals(new ArrayList<>(Arrays.asList(75, 76, 75, 74, 73, 72)), this.model.intermediatePositions(this.red,3, 5));
+        assertEquals(new ArrayList<>(Arrays.asList(75, 76, 75, 74, 73, 72)), this.model.intermediatePositions(this.red, 3, 5));
         // testing bounce
-        assertEquals(new ArrayList<>(Arrays.asList(75, 76, 75, 74, 73, 72, 71)), this.model.intermediatePositions(this.red,3, 6));
+        assertEquals(new ArrayList<>(Arrays.asList(75, 76, 75, 74, 73, 72, 71)), this.model.intermediatePositions(this.red, 3, 6));
         // PlayerTwo
         // testing normal jump
-        assertEquals(new ArrayList<>(Arrays.asList(82, 27, 28, 29, 30, 31, 32)), this.model.intermediatePositions(this.blue,0, 2));
-        assertEquals(new ArrayList<>(Arrays.asList(82, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36)), this.model.intermediatePositions(this.blue,0, 6));
-        assertEquals(new ArrayList<>(Arrays.asList(50, 51, 52, 1, 2, 3, 4)), this.model.intermediatePositions(this.blue,1, 2));
-        assertEquals(new ArrayList<>(Arrays.asList(50, 51, 52, 1, 2, 3, 4, 5, 6, 7, 8)), this.model.intermediatePositions(this.blue,1, 6));
-        assertEquals(new ArrayList<>(Arrays.asList(15, 16, 17, 18, 19, 20)), this.model.intermediatePositions(this.blue,2, 1));
+        assertEquals(new ArrayList<>(Arrays.asList(82, 27, 28, 29, 30, 31, 32)), this.model.intermediatePositions(this.blue, 0, 2));
+        assertEquals(new ArrayList<>(Arrays.asList(82, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36)), this.model.intermediatePositions(this.blue, 0, 6));
+        assertEquals(new ArrayList<>(Arrays.asList(50, 51, 52, 1, 2, 3, 4)), this.model.intermediatePositions(this.blue, 1, 2));
+        assertEquals(new ArrayList<>(Arrays.asList(50, 51, 52, 1, 2, 3, 4, 5, 6, 7, 8)), this.model.intermediatePositions(this.blue, 1, 6));
+        assertEquals(new ArrayList<>(Arrays.asList(15, 16, 17, 18, 19, 20)), this.model.intermediatePositions(this.blue, 2, 1));
         // testing move
-        assertEquals(new ArrayList<>(Arrays.asList(23, 24)), this.model.intermediatePositions(this.blue,3, 1));
-        assertEquals(new ArrayList<>(Arrays.asList(23, 24, 59, 60)), this.model.intermediatePositions(this.blue,3, 3));
-        assertEquals(new ArrayList<>(Arrays.asList(23, 24, 59, 60, 61, 62, 63)), this.model.intermediatePositions(this.blue,3, 6));
+        assertEquals(new ArrayList<>(Arrays.asList(23, 24)), this.model.intermediatePositions(this.blue, 3, 1));
+        assertEquals(new ArrayList<>(Arrays.asList(23, 24, 59, 60)), this.model.intermediatePositions(this.blue, 3, 3));
+        assertEquals(new ArrayList<>(Arrays.asList(23, 24, 59, 60, 61, 62, 63)), this.model.intermediatePositions(this.blue, 3, 6));
     }
 
     private List<Integer> looper(Player player, int plane) {

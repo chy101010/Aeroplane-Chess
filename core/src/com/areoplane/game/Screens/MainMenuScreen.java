@@ -31,15 +31,18 @@ public class MainMenuScreen extends ScreenAdapter {
         if (Gdx.input.isTouched()) {
             Vector3 vector = this.game.camera.unproject(new Vector3(Gdx.input.getX(),
                     Gdx.graphics.getHeight() - Gdx.input.getY(), 0));
+            AreoController controller = new singlePlayerController(new AreoBoardImpl(), AreoPlaneGame.file);
             if (this.playButton.contains(vector.x, vector.y)) {
-                GameScene scene = new GameScene(this.game);
-                AreoController controller = new singlePlayerController(
-                        new AreoBoardImpl(), scene);
+                GameScene gameScene = new GameScene(this.game);
+                controller.setView(gameScene);
                 controller.play();
-                this.game.setScreen(scene);
+                this.game.setScreen(gameScene);
             }
             if (this.loadButton.contains(vector.x, vector.y)) {
-                this.game.setScreen(new WinScene(this.game, "Hello"));
+                LoadScene loadScene = new LoadScene(this.game, false, this);
+                controller.setView(loadScene);
+                controller.play();
+                this.game.setScreen(loadScene);
             }
         }
     }

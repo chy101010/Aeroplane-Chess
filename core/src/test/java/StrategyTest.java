@@ -166,7 +166,7 @@ public class StrategyTest {
         assertEquals(2, (int) this.escape.choosePlane(4, this.model));
         // Plane two of Player "One" escaped into the inner path
         this.one.move(2, 1);
-        assertEquals(null, this.escape.choosePlane(4, this.model));
+        assertNull(this.escape.choosePlane(4, this.model));
         assertArrayEquals(new int[]{5, 14, 51, 51}, this.one.getPositions());
 
         // Setting Plane one of Player "Two" to path so it can destroy Plane two of Player "One"
@@ -176,7 +176,7 @@ public class StrategyTest {
         assertEquals(1, (int) this.escape.choosePlane(4, this.model));
         // Moving Plane one of Player "One" out of the attacking range of Player "Two"
         this.one.move(1, 2);
-        assertEquals(null, this.escape.choosePlane(4, this.model));
+        assertNull(this.escape.choosePlane(4, this.model));
 
         // Moving Plane four of Player "Three" to right behind the Plane zero of Player "One"
         this.three.move(3, 6);
@@ -193,12 +193,12 @@ public class StrategyTest {
         this.model = new AreoBoardImpl(this.one, this.two, this.three, this.four, this.rand);
         // Plane zero of Player "Two" can be destroyed by Plane zero of Player "One" if the roll is 4
         // Plane zero of Player "four" can be destroyed by Plane two of Player "One" if the roll is 5
-        assertEquals(null, this.crash.choosePlane(1, this.model));
-        assertEquals(null, this.crash.choosePlane(2, this.model));
-        assertEquals(null, this.crash.choosePlane(3, this.model));
+        assertNull(this.crash.choosePlane(1, this.model));
+        assertNull(this.crash.choosePlane(2, this.model));
+        assertNull(this.crash.choosePlane(3, this.model));
         assertEquals(0, (int) this.crash.choosePlane(4, this.model));
         assertEquals(2, (int) this.crash.choosePlane(5, this.model));
-        assertEquals(null, this.crash.choosePlane(6, this.model));
+        assertNull(this.crash.choosePlane(6, this.model));
         // Moving Plane one of Player "One" so that Plane zero of Player "Three" is in its attacking range
         this.one.move(1, 1);
         assertEquals(1, (int) this.crash.choosePlane(3, this.model));

@@ -8,10 +8,13 @@ public class Assets {
     public static Texture mainMenu;
     public static Texture board;
     public static Texture win;
+    public static Texture load;
+
     public static Texture red;
     public static Texture yellow;
     public static Texture blue;
     public static Texture green;
+    public static Texture dice0;
     public static Texture dice1;
     public static Texture dice2;
     public static Texture dice3;
@@ -20,6 +23,7 @@ public class Assets {
     public static Texture dice6;
 
     private static final Texture buttons = loadTexture("buttons.png");;
+    private static final Texture loadButtons = loadTexture("load-buttons.png");
     public static TextureRegion activePause;
     public static TextureRegion inActivePause;
     public static TextureRegion activeResume;
@@ -27,6 +31,8 @@ public class Assets {
     public static TextureRegion quit;
 
 
+    public static TextureRegion back;
+    public static TextureRegion save;
 
     public static Texture loadTexture(String file) {
         return new Texture(Gdx.files.internal(file));
@@ -37,10 +43,12 @@ public class Assets {
         win = loadTexture("win.png");
         board = loadTexture("board.png");
         mainMenu = loadTexture("main_menu.png");
+        load = loadTexture("load.png");
         red = loadTexture("red_plane.png");
         yellow = loadTexture("yellow_plane.png");
         blue = loadTexture("blue_plane.png");
         green = loadTexture("green_plane.png");
+        dice0 = loadTexture("white.png");
         dice1 = loadTexture("dice_1.png");
         dice2 = loadTexture("dice_2.png");
         dice3 = loadTexture("dice_3.png");
@@ -52,6 +60,9 @@ public class Assets {
         activeResume = new TextureRegion(buttons, 10,110,361,100);
         inActiveResume = new TextureRegion(buttons, 369,110,361,100);
         quit = new TextureRegion(buttons, 10,210,256,100);
+
+        save = new TextureRegion(loadButtons,0,6,210,62);
+        back = new TextureRegion(loadButtons,0,78,200,60);
     }
 
 

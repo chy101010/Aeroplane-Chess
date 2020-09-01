@@ -28,6 +28,17 @@ public class AreoBoardImpl implements AreoModel {
     }
 
     /**
+     * @param one
+     * @param two
+     * @param three
+     * @param four
+     */
+    public AreoBoardImpl(Player one, Player two, Player three, Player four) {
+        this(one, two, three, four, new Random());
+    }
+
+
+    /**
      * Constructs an AreoBoardImpl with four players.
      *
      * @param one   Player One at Bottom-Left Corner.
@@ -40,6 +51,19 @@ public class AreoBoardImpl implements AreoModel {
         this.players = new Player[]{one, two, three, four};
         this.curPlayerNo = one;
         this.rand = rand;
+    }
+
+    /**
+     * @return
+     */
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        String[] positions = new String[4];
+        for (int i = 0; i < 4; i++) {
+            positions[i] = players[i].toString();
+        }
+        return String.join(" ", positions);
     }
 
     @Override
@@ -103,9 +127,7 @@ public class AreoBoardImpl implements AreoModel {
     @Override
     public Player[] getPlayers() {
         Player[] copyPlayers = new Player[this.players.length];
-        for (int i = 0; i < copyPlayers.length; i++) {
-            copyPlayers[i] = this.players[i];
-        }
+        System.arraycopy(this.players, 0, copyPlayers, 0, copyPlayers.length);
         return copyPlayers;
     }
 
@@ -344,6 +366,38 @@ public class AreoBoardImpl implements AreoModel {
             return pos - 50 + 70;
         } else {
             return pos;
+        }
+    }
+
+    /**
+     * Represents a Builder pattern for this {@code AreoBoardImpl}.
+     */
+    public static final class Builder implements AreoBoardBuilder {
+        private final Player[] players = new Player[4];
+        private int index = 0;
+
+        /**
+         * Constructs a Builder.
+         */
+        public Builder() {
+            for (int i = 0; i < 4; i++) {
+                String[] names = new String[]{"Red", "Yellow", "Blue", "Green"};
+                this.players[i] = new PlayerImpl(names[i]);
+            }
+        }
+
+        @Override
+        public AreoModel build() {
+            return new AreoBoardImpl(this.players[0], this.players[1], this.players[2], this.players[3]);
+        }
+
+        @Override
+        public AreoBoardBuilder addPlayer(Player player) {
+            if (this.index < 4) {
+                this.players[index] = player;
+                index++;
+            }
+            return this;
         }
     }
 }

@@ -1,11 +1,11 @@
 package com.areoplane.game.Screens;
 
+import com.areoplane.game.Controller.AreoController;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -56,8 +56,6 @@ public class GameScene extends ScreenAdapter implements AirView {
     private String message;
 
     // Textures
-    private TextureRegion resume = Assets.inActiveResume;
-    private TextureRegion pause = Assets.activePause;
     private final Texture[] dices = new Texture[]{Assets.dice1, Assets.dice2, Assets.dice3, Assets.dice4, Assets.dice5, Assets.dice6};
     private final Texture[] textures = new Texture[]{Assets.red, Assets.yellow, Assets.blue, Assets.green};
 
@@ -67,9 +65,11 @@ public class GameScene extends ScreenAdapter implements AirView {
     private final int diceX = 107;
     private final int diceY = 75;
     private final int pauseX = 107;
-    private final int pauseY = 26;
+    private final int pauseY = 30;
     private final int resumeX = 107;
-    private final int resumeY = 15;
+    private final int resumeY = 18;
+    private final int saveX = 107;
+    private final int saveY = 12;
     private final int quitX = 107;
     private final int quitY = 5;
 
@@ -77,6 +77,7 @@ public class GameScene extends ScreenAdapter implements AirView {
     private final Rectangle DICE = new Rectangle(this.diceX, this.diceY, 20, 20);
     private final Rectangle PAUSE = new Rectangle(this.pauseX, this.pauseY, 20, 10);
     private final Rectangle RESUME = new Rectangle(this.resumeX, this.resumeY, 20, 10);
+    private final Rectangle SAVE = new Rectangle(this.saveX, this.saveY, 20,5);
     private final Rectangle QUIT = new Rectangle(this.quitX, this.quitY, 20, 5);
 
 
@@ -97,6 +98,7 @@ public class GameScene extends ScreenAdapter implements AirView {
 
     @Override
     public void setDice(int roll) {
+        System.out.print("Set Dice");
         if (roll < 1 || roll > 6) {
             throw new IllegalArgumentException("The given roll can't be less than 1 or greater than 6");
         }
@@ -190,8 +192,6 @@ public class GameScene extends ScreenAdapter implements AirView {
     }
 
     private void updatePause() {
-        this.resume = Assets.activeResume;
-        this.pause = Assets.inActivePause;
         if (Gdx.input.isTouched()) {
             this.vector = this.game.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
             if (this.RESUME.contains(vector.x, vector.y)) {
@@ -200,12 +200,15 @@ public class GameScene extends ScreenAdapter implements AirView {
                 } else if (!this.rollingDice.isEmpty()) {
                     this.state = GAME_ROLLING;
                 } else {
-                    this.resume = Assets.inActiveResume;
-                    this.pause = Assets.activePause;
                     this.state = GAME_RUNNING;
                 }
             } else if (this.QUIT.contains(vector.x, vector.y)) {
                 this.game.setScreen(new MainMenuScreen(this.game));
+            } else if (this.SAVE.contains(vector.x, vector.y)) {
+                LoadScene loadScene = new LoadScene(this.game, true, this);
+                ((AreoController) this.features).setView(loadScene);
+                ((AreoController) this.features).play();
+                this.game.setScreen(loadScene);
             }
         }
     }
@@ -235,8 +238,7 @@ public class GameScene extends ScreenAdapter implements AirView {
         this.font.draw(this.game.batch, String.format("%d", (long) this.update_timer), diceX + 10, diceY - 20);
         this.font.draw(this.game.batch, this.message, diceX - 5, diceY - 30);
         this.game.batch.draw(Assets.quit, quitX, quitY, 20, 5);
-        this.game.batch.draw(this.pause, pauseX, pauseY, 20, 10);
-        this.game.batch.draw(this.resume, resumeX, resumeY, 20, 10);
+        this.game.batch.draw(Assets.dice0, diceX, diceY, 20, 20);
         switch (this.state) {
             case GAME_MOVING:
                 this.drawMoving(delta);
@@ -244,18 +246,30 @@ public class GameScene extends ScreenAdapter implements AirView {
             case GAME_ROLLING:
                 this.drawRolling(delta);
                 break;
-            default:
+            case GAME_RUNNING:
                 this.drawRunning();
+                break;
+            default:
+                this.drawPause();
         }
         this.game.batch.end();
+
+    }
+
+    private void drawPause() {
+        this.game.batch.draw(Assets.activeResume, resumeX, resumeY, 20, 10);
+        this.game.batch.draw(Assets.save, saveX, saveY, 20, 5);
+        this.drawPlanes(this.planes);
     }
 
     private void drawRunning() {
+        this.game.batch.draw(Assets.activePause, pauseX, pauseY, 20, 10);
         this.game.batch.draw(dices[this.dice - 1], diceX, diceY, 20, 20);
         this.drawPlanes(this.planes);
     }
 
     private void drawMoving(float delta) {
+        this.game.batch.draw(Assets.activePause, pauseX, pauseY, 20, 10);
         if (!this.intermediateSteps.isEmpty()) {
             this.game.batch.draw(dices[this.dice - 1], diceX, diceY, 20, 20);
             this.drawPlanes(this.prev_planes);
@@ -269,6 +283,7 @@ public class GameScene extends ScreenAdapter implements AirView {
     }
 
     private void drawRolling(float delta) {
+        this.game.batch.draw(Assets.activePause, pauseX, pauseY, 20, 10);
         if (!this.rollingDice.isEmpty()) {
             this.drawPlanes(this.planes);
             this.draw_timer += delta;

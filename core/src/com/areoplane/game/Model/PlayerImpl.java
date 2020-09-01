@@ -46,6 +46,11 @@ public class PlayerImpl implements Player {
     }
 
     @Override
+    public String toString() {
+        return this.planes[0] + " " + this.planes[1] + " " + this.planes[2] + " " + this.planes[3];
+    }
+
+    @Override
     public int move(int plane, int steps) {
         this.checkPlaneCondition(plane);
         this.checkSteps(steps);
@@ -278,4 +283,38 @@ public class PlayerImpl implements Player {
             throw new IllegalArgumentException("The given plane doesn't exist!");
         }
     }
+
+
+    /**
+     * Represents a Builder pattern for this {@code PlayerImpl}.
+     */
+    public static final class Builder implements PlayerBuilder {
+        private final int[] dp = new int[4];
+        private String name = "";
+        private int index = 0;
+
+        public Builder() {
+            Arrays.fill(this.dp, -1);
+        }
+
+        @Override
+        public Player build() {
+            return new PlayerImpl(this.name, this.dp[0], this.dp[1], this.dp[2], this.dp[3]);
+        }
+
+        @Override
+        public PlayerBuilder setName(String name) {
+            this.name = name;
+            return this;
+        }
+
+
+        @Override
+        public PlayerBuilder addPlanes(int position) {
+            this.dp[index] = position;
+            this.index = this.index == 3 ? 0 : this.index + 1;
+            return this;
+        }
+    }
+
 }

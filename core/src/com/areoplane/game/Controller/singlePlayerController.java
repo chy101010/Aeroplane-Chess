@@ -1,5 +1,8 @@
 package com.areoplane.game.Controller;
 
+import com.areoplane.game.FileHandler.AreoFileHandler;
+import com.areoplane.game.Model.AreoBoardImpl;
+import com.areoplane.game.Model.PlayerImpl;
 import com.areoplane.game.Strategy.*;
 import com.areoplane.game.View.AirView;
 import com.areoplane.game.Model.AreoModel;
@@ -10,8 +13,8 @@ import java.util.Objects;
 
 public class singlePlayerController implements AreoController, Features {
     private final AiStrategy bot;
-    private final AreoModel model;
-    private final AirView view;
+    private AreoModel model;
+    private AirView view;
 
     // To keep track whether the current player is human player.
     private int humanPlayer = 1;
@@ -26,15 +29,18 @@ public class singlePlayerController implements AreoController, Features {
     //
     private Player curPlayer;
 
-    public singlePlayerController(AreoModel model, AirView view) {
+    // File Handler
+    private final AreoFileHandler file;
+
+    public singlePlayerController(AreoModel model, String file) {
         Objects.requireNonNull(model);
-        Objects.requireNonNull(view);
+        Objects.requireNonNull(file);
         this.bot = new AiStrategy(new InnerPathStrategy(), new PutOnPathStrategy(),
                 new EscapeStrategy(), new CrashStrategy(), new JumpStrategy(),
                 new ReachEndStrategy(), new RandomStrategy());
         this.roll = null;
         this.model = model;
-        this.view = view;
+        this.file = new AreoFileHandler(file);
         this.isMoved = false;
     }
 
@@ -42,6 +48,12 @@ public class singlePlayerController implements AreoController, Features {
     public void play() {
         this.view.setFeatures(this);
         this.view.setBoard(this.model.getBoard());
+    }
+
+    @Override
+    public void setView(AirView view) {
+        Objects.requireNonNull(view);
+        this.view = view;
     }
 
     @Override
@@ -53,6 +65,7 @@ public class singlePlayerController implements AreoController, Features {
         } else {
             this.botInstruction(time);
         }
+//        System.out.print("Controller");
     }
 
     private boolean isHumanPlayer() {
@@ -161,5 +174,32 @@ public class singlePlayerController implements AreoController, Features {
         if (this.model.getWinner() != null) {
             this.view.setWinner(this.model.getWinner().getName());
         }
+    }
+
+
+    @Override
+    public void saveData(int slot) {
+        this.file.writeToData(this.model, slot);
+        this.file.writeToFile();
+    }
+
+    @Override
+    public void deleteData(int slot) {
+        this.file.deleteFromData(slot);
+        this.file.writeToFile();
+    }
+
+    // todo hard coded builder
+    @Override
+    public void loadGame(int slot) {
+        AreoModel model = this.file.loadModel(slot, new AreoBoardImpl.Builder(), new PlayerImpl.Builder());
+        if (model != null) {
+            this.model = model;
+        }
+    }
+
+    @Override
+    public void loadData() {
+        this.view.setBoard(this.file.getData());
     }
 }
