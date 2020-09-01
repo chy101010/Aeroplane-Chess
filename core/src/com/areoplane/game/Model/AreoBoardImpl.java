@@ -53,17 +53,13 @@ public class AreoBoardImpl implements AreoModel {
         this.rand = rand;
     }
 
-    /**
-     * @return
-     */
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        String[] positions = new String[4];
+        StringBuilder acc = new StringBuilder();
         for (int i = 0; i < 4; i++) {
-            positions[i] = players[i].toString();
+            acc.append(players[i].toString()).append(" ");
         }
-        return String.join(" ", positions);
+        return acc.substring(0, acc.length() - 1);
     }
 
     @Override
