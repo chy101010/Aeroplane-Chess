@@ -8,7 +8,7 @@ Link to game rules: https://en.wikipedia.org/wiki/Aeroplane_chess.<br>
 
 ## Controls
 Player
-* You are the red planes
+* The user controls the red planes
 
 Game Screen
 * Click the dice to roll.
@@ -22,6 +22,10 @@ Load Screen
 * Click the back button to return to the previous screen.
 * Click the red button in a slot to delete the game data in that slot.
 * Click the green button in a slot to load the game data from that slot or to save the current game data into that slot.
+
+## Note
+The "Games.txt" file stores the game data.<br>
+The game will exit if any of the positions is less than -1 or greater than 56. The user can manually delete/edit that data in file.<br>
 
 
 ## Try it here 
